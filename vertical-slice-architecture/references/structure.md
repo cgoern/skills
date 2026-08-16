@@ -22,14 +22,14 @@ Optimize for change locality: a capability change should touch its slice and, on
 
 ## Architectural roles
 
-| Role | Owns | Must not become |
-| --- | --- | --- |
-| Entry point | Process startup and delegation | A second composition root |
-| Application/composition | Bootstrap, lifecycle, shell, routing, global coordination, cross-slice intent handling | A home for feature rules or data access details |
-| Feature slice | One cohesive capability from input to outcome | A technical layer or grab bag of screens |
-| Shared kernel | Stable vocabulary, contracts, and neutral primitives used with identical meaning | A generic dumping ground |
-| Shared capability/internal platform | Cohesive cross-slice workflows and adapters behind a narrow façade | A hidden composition layer or speculative framework |
-| Infrastructure | Replaceable technical mechanisms and platform adapters | The owner of product workflows |
+| Role                                | Owns                                                                                   | Must not become                                     |
+| ----------------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| Entry point                         | Process startup and delegation                                                         | A second composition root                           |
+| Application/composition             | Bootstrap, lifecycle, shell, routing, global coordination, cross-slice intent handling | A home for feature rules or data access details     |
+| Feature slice                       | One cohesive capability from input to outcome                                          | A technical layer or grab bag of screens            |
+| Shared kernel                       | Stable vocabulary, contracts, and neutral primitives used with identical meaning       | A generic dumping ground                            |
+| Shared capability/internal platform | Cohesive cross-slice workflows and adapters behind a narrow façade                     | A hidden composition layer or speculative framework |
+| Infrastructure                      | Replaceable technical mechanisms and platform adapters                                 | The owner of product workflows                      |
 
 Allow folder names to differ. Preserve the roles and dependency rules even when the host ecosystem uses packages, modules, namespaces, components, services, or assemblies.
 
@@ -95,13 +95,13 @@ Use the host technology's natural mechanism: events, messages, commands, callbac
 
 Use the following as ownership examples for interactive or long-lived stateful systems, not as mandatory VSA roles:
 
-| State kind | Preferred owner |
-| --- | --- |
-| Process lifecycle, current route, authenticated session, globally surfaced errors | Application state |
+| State kind                                                                                            | Preferred owner                                             |
+| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Process lifecycle, current route, authenticated session, globally surfaced errors                     | Application state                                           |
 | Initialized database handles, transport clients, credentials configuration, clocks, platform gateways | Application services or composition-owned runtime container |
-| Capability workflow state and feature data | The feature slice, unless genuinely global |
-| Focus, selection, expansion, draft input, scroll position | The owning presentation component or view |
-| Canonical identity or stable domain data shared with identical meaning | A deliberately governed shared kernel |
+| Capability workflow state and feature data                                                            | The feature slice, unless genuinely global                  |
+| Focus, selection, expansion, draft input, scroll position                                             | The owning presentation component or view                   |
+| Canonical identity or stable domain data shared with identical meaning                                | A deliberately governed shared kernel                       |
 
 Separate mutable product state from initialized runtime capabilities when their ownership or lifecycle would otherwise be ambiguous. They may remain together in small or short-lived systems where the distinction adds no clarity.
 
