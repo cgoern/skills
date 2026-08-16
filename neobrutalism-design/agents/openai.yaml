@@ -1,4 +1,0 @@
-interface:
-  display_name: "Neobrutalism Design"
-  short_description: "Design bold, usable neobrutalist interfaces"
-  default_prompt: "Use $neobrutalism-design to create a technology-agnostic neobrutalist interface specification."

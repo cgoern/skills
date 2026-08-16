@@ -1,4 +1,0 @@
-interface:
-  display_name: "Vertical Slice Architecture"
-  short_description: "Design capability-centered software boundaries"
-  default_prompt: "Use $vertical-slice-architecture to design or refactor this codebase around end-to-end capabilities."
