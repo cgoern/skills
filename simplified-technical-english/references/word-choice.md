@@ -168,11 +168,43 @@ Some software verbs are technical verbs in category 2. Refer to [Technical verb 
 
 ## Approved verbs
 
-These 206 verbs are approved in the dictionary. Use an approved verb before you use a technical verb.
+These 208 verbs are approved in the dictionary. Use an approved verb before you use a technical verb.
 
 ABSORB, ACCEPT, ACTIVATE, ADAPT, ADD, ADJUST, AGREE, ALIGN, APPLY, ARM, ASSEMBLE, ATTACH, BALANCE, BE, BECOME, BEND, BLEED, BLOW, BOND, BREAK, BREATHE, BURN, BYPASS, CALCULATE, CALIBRATE, CAN, CANCEL, CANNOT, CATCH, CAUSE, CHANGE, CHARGE, CLEAN, CLOSE, COLLECT, COME, COME ON, COMPARE, COMPLETE, COMPRESS, CONNECT, CONTACT, CONTAIN, CONTINUE, CONTROL, CORRECT, COUNT, CUT, DEACTIVATE, DECREASE, DE-ENERGIZE, DEFLATE, DEFUEL, DEPLOY, DISARM, DISASSEMBLE, DISCARD, DISCONNECT, DISENGAGE, DIVIDE, DO, DRAIN, DRINK, DRY, EAT, EJECT, ENERGIZE, ENGAGE, ERASE, EXAMINE, EXPAND, EXTEND, EXTINGUISH, FALL, FEATHER, FEEL, FILL, FIND, FIRE, FLASH, FLOW, FLUSH, FOLD, FOLLOW, FREEZE, GET, GIVE, GO, GO OFF, GROUND, HANG, HAVE, HEAR, HELP, HIT, HOLD, IDENTIFY, IGNORE, ILLUMINATE, INCLUDE, INCREASE, INFLATE, INSTALL, INTERCHANGE, ISOLATE, KEEP, KILL, KNOW, LATCH, LET, LIFT, LISTEN, LOCK, LOOK, LOOSEN, LOWER, LUBRICATE, MAKE, MAKE SURE, MEASURE, MELT, MIX, MONITOR, MOOR, MOVE, MULTIPLY, MUST, OBEY, OCCUR, OPEN, OPERATE, OVERRIDE, PAINT, PARK, POINT, POLISH, PREPARE, PRESSURIZE, PREVENT, PROTRUDE, PULL, PUSH, PUT, PUT ON, READ, RECEIVE, RECOMMEND, RECORD, RECYCLE, REFER, REFUEL, REJECT, RELEASE, REMOVE, REPAIR, REPLACE, RETRACT, RUB, SAFETY, SCHEDULE, SEAL, SEE, SELECT, SEND, SENSE, SET, SHAKE, SHOW, SIMULATE, SMELL, SMOKE, SOAK, SPEAK, SPILL, SPRAY, START, STAY, STOP, STOW, SUBTRACT, SUPPLY, SWALLOW, TAG, TAP, TELL, THINK, TIGHTEN, TILT, TORQUE, TOUCH, TOW, TRANSMIT, TRY, TUNE, TURN, TWIST, UNFOLD, UNLOCK, UNWIND, USE, WAIT, WALK, WANT, WEAR, WEIGH, WILL, WIND, WRITE
 
 Note that "FOLLOW" has the approved meaning "to come after". For the meaning "to comply with", use "OBEY".
+
+## The project verb glossary
+
+Rule 1.8 tells you to record the technical verbs that your subject field approves. These verbs occur as instruction headings in software text. The dictionary does not approve them, and no approved verb gives the same meaning. Use the replacement when the table gives one. Use the technical verb when the table marks it `TV2`, because category 2 covers computer processes.
+
+| Instruction verb  | Use instead                              |
+| ----------------- | ---------------------------------------- |
+| call (a function) | `TV2` call                               |
+| capture           | RECORD (v)                               |
+| classify          | `TV2` classify, or PUT ... IN A CATEGORY |
+| confirm           | MAKE SURE (v)                            |
+| define            | `TV2` define, or GIVE (v)                |
+| establish         | MAKE (v)                                 |
+| exercise          | `TV2` test, or DO A TEST OF              |
+| inspect           | EXAMINE (v)                              |
+| map               | `TV2` map                                |
+| mark              | TAG (v)                                  |
+| organize          | `TV2` sort, or PUT ... IN ORDER          |
+| prefer            | Refer to deviation 6 in `SKILL.md`       |
+| recheck           | DO A CHECK ... AGAIN                     |
+| rename            | `TV2` rename                             |
+| report            | TELL (v), RECORD (v)                     |
+| revalidate        | `TV2` validate ... AGAIN                 |
+| route             | SEND (v)                                 |
+| run (a command)   | `TV2` run                                |
+| search            | FIND (v)                                 |
+| separate          | DIVIDE (v), ISOLATE (v)                  |
+| surface           | SHOW (v), TELL (v)                       |
+| trace             | `TV2` trace, or FOLLOW (v)               |
+| treat ... as      | USE ... AS                               |
+
+Do not add a verb to this table when an approved verb gives the same instruction. Rule 1.12 permits a technical verb only when the approved dictionary cannot make the sentence.
 
 ## Technical noun categories
 

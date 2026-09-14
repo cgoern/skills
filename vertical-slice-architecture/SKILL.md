@@ -1,84 +1,132 @@
 ---
 name: vertical-slice-architecture
-description: Design, refactor, and review software systems using technology-agnostic Vertical Slice Architecture. Use when organizing a codebase around end-to-end capabilities, migrating from horizontal technical layers, defining feature and composition boundaries, deciding what belongs in shared code, coordinating cross-feature workflows, aligning state ownership and internal naming during a capability-centered refactor, or auditing a proposed VSA structure for coupling and scope drift.
+description: Design, refactor, and review software systems using technology-agnostic Vertical Slice Architecture. Use when organizing a codebase around end-to-end capabilities, migrating from horizontal technical layers, or defining feature and composition boundaries. Also use when deciding what belongs in shared code or coordinating cross-feature workflows. Also use when aligning state ownership and internal naming during a capability-centered refactor. Also use when auditing a proposed VSA structure for coupling and scope drift. This skill works at the level of a capability boundary. Do not use it to decide where one helper file goes, or to rename folders with no boundary change.
 ---
 
 # Vertical Slice Architecture
 
-Organize software around cohesive capabilities so one product change stays primarily inside one slice. Treat directory structure as evidence of ownership and dependency direction, not as the architecture itself.
+Divide the software into cohesive capabilities so that one product change stays primarily inside one slice. Use the directory structure as evidence of ownership and dependency direction, not as the architecture itself.
 
 ## Load the guidance
 
-- Read [references/structure.md](references/structure.md) before designing, implementing, or reviewing a VSA structure.
-- Also read [references/refactoring.md](references/refactoring.md) when changing an existing codebase.
+This file carries the role list, the shared-code tests, and the validation steps. Do not load a
+reference file that the task does not need.
 
-## Establish the task contract
+Read [references/structure.md](references/structure.md) only in these conditions:
 
-Determine whether the user wants analysis, design, implementation, review, or a full refactor. Preserve behavior unless behavior changes are explicit. Record scope exclusions such as tests, API changes, visual changes, persistence migrations, or deployment work.
+- You must apply the dependency rules between two roles, or record a deliberate exception.
+- You must select between a shared kernel and a shared capability.
+- Two capabilities use the same entity, and you must decide whether they are one slice.
+- You audit a structure and you need the ten audit questions.
 
-Do not turn an architecture request into an unrelated rewrite. Prefer moves, narrow façades, dependency changes, and role-accurate renames over speculative abstractions.
+Read [references/refactoring.md](references/refactoring.md) only when you move existing code. It
+gives the increment sequence, the naming pass, and the scope safeguards.
 
-## Discover before designing
+## Make the task contract
 
-1. Read repository instructions and use its native build and validation commands.
+Find the type of task that the user wants: analysis, design, implementation, review, or a full refactor. Keep the behavior unless the user explicitly asks for a behavior change.
+
+Record each scope exclusion, for example:
+
+- Tests
+- API changes
+- Visual changes
+- Persistence migrations
+- Deployment work
+
+Do not change an architecture request into an unrelated rewrite. Prefer moves, narrow facades, dependency changes, and role-accurate renames over speculative abstractions.
+
+## Discover before the design
+
+1. Read the instructions of the host project and use its native build and validation commands.
 2. Map entry points, product capabilities, user-visible workflows, state owners, runtime services, persistence, external integrations, and shared concepts.
-3. Trace dependencies and cross-capability calls. Distinguish orchestration from feature behavior.
+3. Trace dependencies and cross-capability calls. Identify the difference between orchestration and feature behavior.
 4. Identify names and folders that describe technical layers instead of ownership.
-5. Establish a passing baseline or report pre-existing failures before editing.
+5. Before you edit the code, make a passing baseline or tell the user about the failures that already exist.
 
-Use evidence from code and dependency searches. Do not infer boundaries solely from filenames.
+Use evidence from the code and from dependency searches. Do not decide a boundary from a filename only.
 
 ## Produce a boundary map
 
 Classify each responsibility into one of these roles:
 
-- **Entry point:** start the system and hand control to the application layer.
-- **Application/composition:** bootstrap, navigation or delivery shell, global coordination, lifecycle, and cross-slice intent handling.
-- **Feature slice:** one end-to-end capability, including the behavior and adapters specific to that capability.
-- **Shared kernel:** stable concepts or reusable presentation primitives with identical semantics across multiple slices.
-- **Shared capability/internal platform:** a cohesive cross-slice subsystem with stable semantics, its own façade, and proven consumers.
-- **Infrastructure:** technical mechanisms such as transport, persistence engines, telemetry, filesystem access, and platform integration.
+- **Entry point** - start the system and give control to the application layer.
+- **Application/composition** - bootstrap, navigation or delivery shell, global coordination, lifecycle, and cross-slice intent handling.
+- **Feature slice** - one end-to-end capability, with the behavior and the adapters that are specific to that capability.
+- **Shared kernel** - stable concepts or reusable presentation primitives with identical semantics across multiple slices.
+- **Shared capability/internal platform** - a cohesive cross-slice subsystem with stable semantics, its own facade, and proven consumers.
+- **Infrastructure** - technical mechanisms, for example transport, persistence engines, telemetry, filesystem access, and platform integration.
 
-Define the allowed dependency direction before moving files. Give every mutable state value, runtime capability, workflow, and shared abstraction one clear owner.
+Define the allowed dependency direction before you move files. Give every mutable state value, runtime capability, workflow, and shared abstraction one clear owner.
 
 ## Refactor by capability
 
-Move one coherent slice at a time. Keep its internal model, use cases, presentation or delivery code, data mapping, and slice-specific persistence close together. Expose only the smallest surface required by the composition layer or other approved consumers.
+Move one coherent slice at a time. Keep these parts of the slice close together:
 
-Replace direct feature-to-feature calls with explicit intents, messages, events, commands, or application-level orchestration. Keep the mechanism native to the host technology; preserve the architectural direction.
+- The internal model
+- The use cases
+- The presentation code or the delivery code
+- The data mapping
+- The slice-specific persistence
 
-Rename internals as part of the refactor when old names encode obsolete layers or responsibilities. Prefer capability and role names. Avoid vague containers such as `manager`, `helper`, `common`, or `utils` unless they name a precise, established concept.
+Expose only the smallest surface that is necessary for the composition layer or other approved consumers.
+
+Replace each direct feature-to-feature call with one of these mechanisms:
+
+- An explicit intent
+- A message
+- An event
+- A command
+- Application-level orchestration
+
+Keep the mechanism native to the host technology. Keep the architectural direction.
+
+Rename internals as part of the refactor when a name encodes an obsolete layer or responsibility. Prefer capability and role names. It is better not to use vague containers, for example `manager`, `helper`, `common`, or `utils`. Use one of these names only when the name gives a precise and established concept.
 
 ## Govern shared code
 
-Require evidence before moving code into shared ownership:
+Move code into shared ownership only when you have evidence of all of these conditions:
 
-1. At least two current slices need it.
-2. They use the same semantics and invariants, not merely similar shapes.
-3. The abstraction can remain feature-neutral.
-4. Its likely changes belong to all consumers together.
+1. The code is necessary for two current slices or more.
+2. The slices use the same semantics and invariants, not only similar shapes.
+3. The abstraction can stay feature-neutral.
+4. The likely changes to the abstraction belong to all the consumers together.
 
-Keep distinct workflows as distinct slices even when they display the same entity or list. Share the canonical identity, stable domain vocabulary, query or ordering semantics, and stateless presentation only when those pass the tests above.
+Keep distinct workflows as distinct slices, even when the workflows display the same entity or list. Share only these items, and only when each item obeys the four tests above:
 
-Do not use `shared` as a waiting room for code whose owner is unclear.
+- The canonical identity
+- The stable domain vocabulary
+- The query semantics or the ordering semantics
+- The stateless presentation
+
+Do not use `shared` as a temporary location for code with an unclear owner.
 
 ## Validate architecture and behavior
 
-After implementation:
+After the implementation:
 
-1. Search for forbidden feature-to-feature dependencies and legacy layer names.
-2. Confirm entry points are thin and the composition layer contains coordination rather than feature policy.
-3. Confirm every feature exposes a narrow façade and keeps its internals private where the technology permits.
-4. Classify feature dependencies on application context as narrow contracts, host-native context access, or deliberate exceptions; reject access to composition implementation details.
-5. Recheck shared items against the shared-kernel or shared-capability criteria.
-6. Remove empty legacy directories and stale module declarations.
-7. Run repository-native formatting, build or type checks, linting, and existing tests that are in scope.
-8. Inspect the final diff for accidental behavior, dependency, configuration, or generated-file changes.
+1. Find forbidden feature-to-feature dependencies and legacy layer names.
+2. Make sure that the entry points are thin and that the composition layer contains coordination, not feature policy.
+3. Make sure that every feature exposes a narrow facade. If the technology can keep the internals private, make sure that the internals stay private.
+4. Classify feature dependencies on application context as narrow contracts, host-native context access, or deliberate exceptions. Reject access to composition implementation details.
+5. Do a check of each shared item again, against the shared-kernel criteria or the shared-capability criteria.
+6. Remove the empty legacy directories and the stale module declarations.
+7. Run the native formatting, build or type checks, linting, and existing tests of the host project that are in scope.
+8. Examine the final diff for accidental changes to behavior, dependencies, configuration, or generated files.
 
-Report the resulting boundary map, important naming changes, validation evidence, and any deliberate exceptions.
+Tell the user about the new boundary map, the important naming changes, the validation evidence, and the deliberate exceptions.
 
 ## Apply judgment
 
-Do not assume VSA requires a universal folder tree, one file per use case, CQRS, domain-driven design, dependency injection, or microservices. Introduce these only when the system benefits from them independently.
+Do not assume that VSA makes these necessary:
 
-Prefer a modest shared kernel and slightly duplicated slice code over a premature abstraction that couples unrelated capabilities. Extract shared code after semantic identity is demonstrated.
+- A universal folder tree
+- One file per use case
+- CQRS
+- Domain-driven design
+- Dependency injection
+- Microservices
+
+Add one of these patterns only when the system gets a benefit from it independently.
+
+Prefer a modest shared kernel and slightly duplicated slice code over a premature abstraction that couples unrelated capabilities. Extract the shared code after the evidence shows semantic identity.

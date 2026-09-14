@@ -1,19 +1,19 @@
 # Agent Skills
 
-A small collection of focused, evidence-driven skills for coding agents. Each skill keeps its operating workflow in `SKILL.md` and places deeper guidance in references that are loaded only when needed.
+A small collection of focused, evidence-driven skills for coding agents. Each skill keeps its operating workflow in `SKILL.md`. Each skill puts the deeper guidance in reference files. An agent reads a reference file only when the task needs it.
 
 ## Available skills
 
-| Skill                                                         | Use it for                                                                                | Emphasis                                                                                                                                          |
-| ------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`conventional-commit`](conventional-commit/)                 | Writing commit messages, pull-request titles, merge or squash messages, and release notes | Conventional Commits 1.0.0 compliance; type and scope selection; breaking-change markers and footers; semantic-version impact                     |
-| [`gpui-best-practices`](gpui-best-practices/)                 | Creating, refactoring, debugging, reviewing, testing, or optimizing GPUI Rust code        | Resolving the target project's locked GPUI API; state and entity ownership; rendering, input, accessibility, async work, testing, and performance |
-| [`simplified-technical-english`](simplified-technical-english/) | Writing or revising prompts, tool descriptions, agent instructions, log and error messages, code comments, READMEs, AGENTS.md, and other documentation | ASD-STE100 Issue 9 writing rules and approved-word dictionary; procedural versus descriptive text; ambiguity removal for agents, translation pipelines, and non-native readers |
-| [`vertical-slice-architecture`](vertical-slice-architecture/) | Designing, reviewing, or incrementally refactoring systems around end-to-end capabilities | Clear ownership and dependency direction; narrow feature boundaries; cross-slice coordination; disciplined shared code                            |
+| Skill                                                           | Use it for                                                                                                                                                 | Emphasis                                                                                                                                                                                                               |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`conventional-commit`](conventional-commit/)                   | Commit messages, pull-request titles, merge or squash messages, and release notes                                                                          | Conventional Commits 1.0.0 compliance. Type and scope selection. Breaking-change markers and footers. The effect on the semantic version.                                                                              |
+| [`gpui-best-practices`](gpui-best-practices/)                   | GPUI Rust code: new code, refactor work, debug work, reviews, tests, and optimization                                                                      | How to resolve the locked GPUI API of the host project. State and entity ownership. Rendering, input, accessibility, async work, tests, and performance.                                                               |
+| [`simplified-technical-english`](simplified-technical-english/) | New text or a revision: prompts, tool descriptions, agent instructions, log and error messages, code comments, READMEs, AGENTS.md, and other documentation | The ASD-STE100 Issue 9 writing rules and the approved-word dictionary. The difference between procedural text and descriptive text. How to remove ambiguity for agents, translation pipelines, and non-native readers. |
+| [`vertical-slice-architecture`](vertical-slice-architecture/)   | Design, review, and incremental refactor work on systems around end-to-end capabilities                                                                    | Clear ownership and dependency direction. Narrow feature boundaries. Coordination between slices. Disciplined shared code.                                                                                             |
 
 ## Installation
 
-Use the [Skills CLI](https://www.skills.sh/docs/cli) to choose skills interactively:
+Use the [Skills CLI](https://www.skills.sh/docs/cli) to select skills interactively:
 
 ```sh
 npx skills add https://github.com/cgoern/skills
@@ -28,11 +28,11 @@ npx skills add https://github.com/cgoern/skills --skill simplified-technical-eng
 npx skills add https://github.com/cgoern/skills --skill vertical-slice-architecture
 ```
 
-For a manual installation, copy the complete skill directory into the skills location used by your agent. Keep `SKILL.md` and its `references/` directory together.
+For a manual installation, copy the full skill directory into the skills location of your agent. Keep `SKILL.md` and its `references/` directory together.
 
 ## Usage
 
-Once installed, ask your agent to use a skill explicitly or give it a task that matches the skill's description. For example:
+When the installation is completed, tell your agent to use a skill by name. Or give your agent a task that matches the description of the skill. For example:
 
 ```text
 Use vertical-slice-architecture to map this codebase's capability boundaries and propose an incremental refactor.
@@ -44,29 +44,87 @@ Use conventional-commit to write the message for the staged changes and the matc
 Use simplified-technical-english to rewrite this tool description, and show me which rule each change fixes.
 ```
 
-The skills are designed to adapt to the repository they are used in:
+Each skill adapts to the host project:
 
-- `conventional-commit` follows the Conventional Commits 1.0.0 specification and respects the additional types and scopes a repository already uses.
-- `vertical-slice-architecture` is technology-agnostic and preserves host conventions while organizing code around cohesive capabilities.
-- `gpui-best-practices` treats the target project's resolved GPUI source as authoritative. Its bundled source map is historical research, not a substitute for the locked API.
-- `simplified-technical-english` restates ASD-STE100 Issue 9 and documents a deviation profile for code, identifiers, emitted strings, and markdown structure. The bundled word lists are a working subset, not the full dictionary.
+- `conventional-commit` obeys the Conventional Commits 1.0.0 specification. The skill also keeps each type and each scope that the host project uses in addition to the specification.
+- `vertical-slice-architecture` does not depend on a technology. The skill keeps the conventions of the host project while it groups the code around cohesive capabilities.
+- `gpui-best-practices` uses the resolved GPUI source of the host project as the authority. The bundled source map of the skill is historical research. The source map is not a substitute for the locked API.
+- `simplified-technical-english` restates ASD-STE100 Issue 9. The skill also records a deviation profile for code, identifiers, emitted strings, and markdown structure. The bundled word lists are a working subset, not the full dictionary.
 
 ## Repository structure
 
 ```text
 <skill-name>/
 ├── SKILL.md          # Metadata, activation description, and operating workflow
-└── references/       # Detailed guidance loaded for the task at hand
+├── references/       # Detailed guidance loaded for the task at hand
+└── scripts/          # Optional. Bundled validators
 ```
 
-`SKILL.md` stays concise and routes the agent to the smallest relevant reference set. This progressive-disclosure structure provides depth without loading unrelated material into every task.
+`SKILL.md` stays concise. `SKILL.md` sends the agent to the smallest applicable reference set. This progressive-disclosure structure gives depth. At the same time, the structure does not load unrelated material into every task.
+
+## Use a skill in a project
+
+An installed skill is portable. It does not know your directory layout, your accepted values, or
+your validation command. Add one or two bullets for each installed skill to the `AGENTS.md` file of
+that project.
+
+Replace each `<PLACEHOLDER>`. Delete a bullet that has no local fact.
+
+### conventional-commit
+
+```markdown
+- Use `conventional-commit` when you write a commit message, a pull-request title, or a release entry. The accepted types are in `<TYPES_FILE>`.
+- A commit scope must be a directory name from `<FEATURE_PATH>/`. A subject has a maximum of <N> characters.
+```
+
+### vertical-slice-architecture
+
+```markdown
+- Use `vertical-slice-architecture` when you add a capability, or when you move code between features. Feature code is in `<FEATURE_PATH>/<capability>/`.
+- Cross-slice calls use `<MECHANISM_NAME>`. Do not restructure `<FROZEN_PATH>/`.
+```
+
+### gpui-best-practices
+
+```markdown
+- Use `gpui-best-practices` for each change to the interface code in `<UI_PATH>/`. Use the local wrappers in `<WRAPPER_PATH>/`, not the raw framework elements.
+- The locked GPUI revision is in `<LOCKFILE>`. If guidance disagrees with the locked source, obey the locked source.
+```
+
+### simplified-technical-english
+
+```markdown
+- Use `simplified-technical-english` when you write or change the text in `<DOCS_PATH>/`, `README.md`, or `<MESSAGE_GLOB>`. Use this skill also for the documentation comments and the docstrings in `<SOURCE_PATH>/`.
+- Do not rewrite `<GENERATED_PATH>`, or the strings in `<FIXTURE_PATH>/`. The tests compare these strings exactly.
+```
+
+### Keep the bullets small
+
+An agent selects a skill from the `description` field of that skill, at session start. A bullet
+above does not make a skill load. A bullet tells the agent where the work is in your project, and
+gives the values that the skill cannot know.
+
+Thus keep each bullet short, and obey these limits:
+
+- Write a maximum of two bullets for each skill.
+- Do not copy the rules of the skill. The skill gives them when it loads, and your copy goes stale.
+- Do not write "always use skill X". A one-line change then loads a full procedure.
+- Do not add trigger words because a skill did not activate. Correct the `description` field instead.
+- Delete a bullet when you cannot name the incorrect action that occurs without it.
+
+The `simplified-technical-english` skill bundles a checker. Run it on any markdown file:
+
+```sh
+python3 simplified-technical-english/scripts/check-ste.py README.md
+```
 
 ## Contributing
 
-When adding or changing a skill:
+When you add or change a skill, obey these rules:
 
-1. Use a lowercase, kebab-case directory and keep its name aligned with the `name` in `SKILL.md` frontmatter.
-2. Write a precise `description` that says both what the skill does and when it should activate.
-3. Keep the main workflow focused; move detailed or topic-specific guidance into `references/`.
-4. Prefer evidence, host-project conventions, and proportionate validation over universal prescriptions.
-5. Verify every relative link and keep version-sensitive sources explicitly pinned or caveated.
+1. Use a lowercase, kebab-case directory. Keep the directory name the same as the `name` in the `SKILL.md` frontmatter.
+2. Write a precise `description` that says what the skill does and when an agent must use it. Keep the field below 1024 characters.
+3. Keep the primary workflow focused. Keep `SKILL.md` below 500 lines and below 5000 tokens. Move detailed or topic-specific guidance into `references/`.
+4. Before you add a skill, do a check of its quality against a no-skill baseline. Keep the instruction only when the skill changes the result.
+5. It is better to use evidence, the conventions of the host project, and proportionate validation than a universal prescription. Keep an instruction only when the answer is yes: "Does an agent get this wrong without this instruction?"
+6. Make sure that every relative link resolves. Keep each version-sensitive source explicitly pinned, or add a caveat to the source.
