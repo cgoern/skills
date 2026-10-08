@@ -9,6 +9,7 @@ A small collection of focused, evidence-driven skills for coding agents. Each sk
 | [`conventional-commit`](conventional-commit/)                   | Commit messages, pull-request titles, merge or squash messages, and release notes                                                                          | Conventional Commits 1.0.0 compliance. Type and scope selection. Breaking-change markers and footers. The effect on the semantic version.                                                                              |
 | [`gpui-best-practices`](gpui-best-practices/)                   | GPUI Rust code: new code, refactor work, debug work, reviews, tests, and optimization                                                                      | How to resolve the locked GPUI API of the host project. State and entity ownership. Rendering, input, accessibility, async work, tests, and performance.                                                               |
 | [`simplified-technical-english`](simplified-technical-english/) | New text or a revision: prompts, tool descriptions, agent instructions, log and error messages, code comments, READMEs, AGENTS.md, and other documentation | The ASD-STE100 Issue 9 writing rules and the approved-word dictionary. The difference between procedural text and descriptive text. How to remove ambiguity for agents, translation pipelines, and non-native readers. |
+| [`unslop`](unslop/)                                             | Editing any writing to remove common AI patterns                                                                                                           | Plain words, concrete claims, active voice, and natural phrasing. Preserve meaning and match the intended tone.                                                                                                        |
 | [`vertical-slice-architecture`](vertical-slice-architecture/)   | Design, review, and incremental refactor work on systems around end-to-end capabilities                                                                    | Clear ownership and dependency direction. Narrow feature boundaries. Coordination between slices. Disciplined shared code.                                                                                             |
 
 ## Installation
@@ -25,6 +26,7 @@ To install only one skill, select it by name:
 npx skills add https://github.com/cgoern/skills --skill conventional-commit
 npx skills add https://github.com/cgoern/skills --skill gpui-best-practices
 npx skills add https://github.com/cgoern/skills --skill simplified-technical-english
+npx skills add https://github.com/cgoern/skills --skill unslop
 npx skills add https://github.com/cgoern/skills --skill vertical-slice-architecture
 ```
 
@@ -42,6 +44,8 @@ Use gpui-best-practices to diagnose this focus bug against the GPUI revision loc
 Use conventional-commit to write the message for the staged changes and the matching pull-request title.
 
 Use simplified-technical-english to rewrite this tool description, and show me which rule each change fixes.
+
+Use unslop to edit this draft for AI patterns while preserving its meaning and tone.
 ```
 
 Each skill adapts to the host project:
@@ -50,13 +54,14 @@ Each skill adapts to the host project:
 - `vertical-slice-architecture` does not depend on a technology. The skill keeps the conventions of the host project while it groups the code around cohesive capabilities.
 - `gpui-best-practices` uses the resolved GPUI source of the host project as the authority. The bundled source map of the skill is historical research. The source map is not a substitute for the locked API.
 - `simplified-technical-english` restates ASD-STE100 Issue 9. The skill also records a deviation profile for code, identifiers, emitted strings, and markdown structure. The bundled word lists are a working subset, not the full dictionary.
+- `unslop` removes common AI writing patterns while preserving the intended meaning and tone. It disables automatic model invocation, so invoke it explicitly by name.
 
 ## Repository structure
 
 ```text
 <skill-name>/
 ├── SKILL.md          # Metadata, activation description, and operating workflow
-├── references/       # Detailed guidance loaded for the task at hand
+├── references/       # Optional. Detailed guidance loaded for the task at hand
 └── scripts/          # Optional. Bundled validators
 ```
 
@@ -96,6 +101,13 @@ Replace each `<PLACEHOLDER>`. Delete a bullet that has no local fact.
 ```markdown
 - Use `simplified-technical-english` when you write or change the text in `<DOCS_PATH>/`, `README.md`, or `<MESSAGE_GLOB>`. Use this skill also for the documentation comments and the docstrings in `<SOURCE_PATH>/`.
 - Do not rewrite `<GENERATED_PATH>`, or the strings in `<FIXTURE_PATH>/`. The tests compare these strings exactly.
+```
+
+### unslop
+
+```markdown
+- Use `unslop` when I explicitly request an edit for AI writing patterns in `<DOCS_PATH>` or `<CONTENT_PATH>`.
+- Preserve quoted source text and the exact strings in `<FIXTURE_PATH>`.
 ```
 
 ### Keep the bullets small
