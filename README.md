@@ -7,6 +7,7 @@ A small collection of focused, evidence-driven skills for coding agents. Each sk
 | Skill                                                           | Use it for                                                                                                                                                 | Emphasis                                                                                                                                                                                                               |
 | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`conventional-commit`](conventional-commit/)                   | Commit messages, pull-request titles, merge or squash messages, and release notes                                                                          | Conventional Commits 1.0.0 compliance. Type and scope selection. Breaking-change markers and footers. The effect on the semantic version.                                                                              |
+| [`documentation`](documentation/)                               | READMEs, tutorials, how-to pages, references, error catalogs, troubleshooting pages, and tool definitions that agents read | Self-contained sections for retrieval. Exact error catalogs. Page length by task complexity. Importance in words. Tool descriptions that agents select correctly. |
 | [`gpui-best-practices`](gpui-best-practices/)                   | GPUI Rust code: new code, refactor work, debug work, reviews, tests, and optimization                                                                      | How to resolve the locked GPUI API of the host project. State and entity ownership. Rendering, input, accessibility, async work, tests, and performance.                                                               |
 | [`simplified-technical-english`](simplified-technical-english/) | New text or a revision: prompts, tool descriptions, agent instructions, log and error messages, code comments, READMEs, AGENTS.md, and other documentation | The ASD-STE100 Issue 9 writing rules and the approved-word dictionary. The difference between procedural text and descriptive text. How to remove ambiguity for agents, translation pipelines, and non-native readers. |
 | [`vertical-slice-architecture`](vertical-slice-architecture/)   | Design, review, and incremental refactor work on systems around end-to-end capabilities                                                                    | Clear ownership and dependency direction. Narrow feature boundaries. Coordination between slices. Disciplined shared code.                                                                                             |
@@ -23,6 +24,7 @@ To install only one skill, select it by name:
 
 ```sh
 npx skills add https://github.com/cgoern/skills --skill conventional-commit
+npx skills add https://github.com/cgoern/skills --skill documentation
 npx skills add https://github.com/cgoern/skills --skill gpui-best-practices
 npx skills add https://github.com/cgoern/skills --skill simplified-technical-english
 npx skills add https://github.com/cgoern/skills --skill vertical-slice-architecture
@@ -41,6 +43,8 @@ Use gpui-best-practices to diagnose this focus bug against the GPUI revision loc
 
 Use conventional-commit to write the message for the staged changes and the matching pull-request title.
 
+Use documentation to audit docs/ for agent readers, and add an error catalog from the exceptions in src/.
+
 Use simplified-technical-english to rewrite this tool description, and show me which rule each change fixes.
 ```
 
@@ -49,6 +53,7 @@ Each skill adapts to the host project:
 - `conventional-commit` obeys the Conventional Commits 1.0.0 specification. The skill also keeps each type and each scope that the host project uses in addition to the specification.
 - `vertical-slice-architecture` does not depend on a technology. The skill keeps the conventions of the host project while it groups the code around cohesive capabilities.
 - `gpui-best-practices` uses the resolved GPUI source of the host project as the authority. The bundled source map of the skill is historical research. The source map is not a substitute for the locked API.
+- `documentation` takes error strings, defaults, and flags from the source of the host project, not from memory. The skill controls the structure and the content of a page. Use `simplified-technical-english` for the wording.
 - `simplified-technical-english` restates ASD-STE100 Issue 9. The skill also records a deviation profile for code, identifiers, emitted strings, and markdown structure. The bundled word lists are a working subset, not the full dictionary.
 
 ## Repository structure
@@ -89,6 +94,13 @@ Replace each `<PLACEHOLDER>`. Delete a bullet that has no local fact.
 ```markdown
 - Use `gpui-best-practices` for each change to the interface code in `<UI_PATH>/`. Use the local wrappers in `<WRAPPER_PATH>/`, not the raw framework elements.
 - The locked GPUI revision is in `<LOCKFILE>`. If guidance disagrees with the locked source, obey the locked source.
+```
+
+### documentation
+
+```markdown
+- Use `documentation` when you write or change the pages in `<DOCS_PATH>/`, or the tool definitions in `<TOOLS_PATH>`. The error classes are in `<ERRORS_FILE>`.
+- Keep the page templates in `<TEMPLATE_PATH>/`. Do not edit the generated reference in `<GENERATED_PATH>/`.
 ```
 
 ### simplified-technical-english
