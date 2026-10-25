@@ -59,7 +59,7 @@ Each skill adapts to the host project:
 - `gpui-best-practices` uses the resolved GPUI source of the host project as the authority. The bundled source map of the skill is historical research. The source map is not a substitute for the locked API.
 - `documentation` takes error strings, defaults, and flags from the source of the host project, not from memory. The skill controls the structure and the content of a page. Use `simplified-technical-english` for the wording.
 - `simplified-technical-english` restates ASD-STE100 Issue 9. The skill also records a deviation profile for code, identifiers, emitted strings, and markdown structure. The bundled word lists are a working subset, not the full dictionary.
-- `unslop` removes common AI writing patterns while preserving the intended meaning and tone. It disables automatic model invocation, so invoke it explicitly by name.
+- `unslop` removes common AI writing patterns while preserving the intended meaning and tone. An agent can load it when it writes or edits prose that a person reads.
 
 ## Repository structure
 
@@ -118,7 +118,7 @@ Replace each `<PLACEHOLDER>`. Delete a bullet that has no local fact.
 ### unslop
 
 ```markdown
-- Use `unslop` when I explicitly request an edit for AI writing patterns in `<DOCS_PATH>` or `<CONTENT_PATH>`.
+- Use `unslop` when you write or edit the prose in `<DOCS_PATH>` or `<CONTENT_PATH>`.
 - Preserve quoted source text and the exact strings in `<FIXTURE_PATH>`.
 ```
 
